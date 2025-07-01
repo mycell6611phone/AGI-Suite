@@ -90,7 +90,7 @@ python main.py
 
 🙏 Credits
 
-Built by [Justin Carrow].
+Built by Justin Carrow.
 Openly inspired by the best ideas from AGI research, Microsoft AutoGen, LangChain, OpenAI, and the open-source community.
 Special thanks to the contributors, reviewers, and anyone who helps push open AGI forward.
 📢 Contributing & Collaboration
