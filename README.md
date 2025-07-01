@@ -1,114 +1,102 @@
-# AGI-Suite
-AGI Agent Platform
-🚀 Boundless Modular AGI Agent Platform
+AGI Suite
 
-The Next-Gen, Open Architecture for Autonomous AI Agents
-🌐 Vision
+The Open, Modular, Boundless Memory Agent Platform
+Vision
 
-“What if you could build an agent that never forgets, reasons about its own choices, learns from every mistake, adapts its personality, and controls real-world systems—all with open, modular code?”
+AGI Suite is a blueprint and working prototype for open, modular AI agents with real, layered memory, self-reflection, continuous learning, tool/plugin ecosystem, human-in-the-loop safety, policy enforcement, and environmental embodiment. This platform is designed for research, innovation, and rapid development of next-generation AI agents.
+Architecture Overview
 
-This project is a blueprint and working prototype for that vision:
-A research-grade AGI agent framework with layered memory, tool/plugin ecosystem, metacognition, continual learning, observability, human-in-the-loop safety, and full environmental embodiment.
-🏗️ Architecture Overview
+    Boundless Memory Fabric: Hierarchical, infinite memory with vector search, on-disk archival, active forgetting, and context refresh.
 
-    Boundless, Layered Memory Fabric
-    Unlimited, hierarchical memory—combining vector search, on-disk storage, and active forgetting/refresh.
+    Plugin & Toolbelt System: Native runtime tools, API bridges, and modular pipeline composition.
 
-    Plugin & Toolbelt System
-    Native runtime plugins for code execution, DB, web, APIs, and drag-and-drop pipeline composition.
+    Metacognitive Core: Self-reflective planning, rationale tracing, and quantified uncertainty/confidence.
 
-    Metacognitive Core
-    Self-reflective planner with rationale tracing, critique, and quantified uncertainty/confidence.
+    Mood & Persona Manager: Adaptive, goal-aligned persona and mood switching.
 
-    Mood & Persona Manager
-    Runtime-switchable personas and moods, goal-aligned for adaptive, contextual behavior.
+    Continual Self-Learning: User feedback loops into real-time model adapters or RL agents.
 
-    Continual Self-Learning
-    Online feedback (upvotes/downvotes) flows into lightweight adapters or RL modules for real-time improvement.
+    Observability & Telemetry: Live dashboards, metrics, and fully traceable agent logs.
 
-    Observability & Telemetry
-    Live dashboards, metrics, trace logs—every agent step is auditable.
+    Human-in-the-Loop Harmony: Clarification, escalation, and safe handoff to humans when needed.
 
-    Human-in-the-Loop Harmony
-    Clarification and escalation protocols to ensure safe, interpretable autonomy.
+    Policy Engine: Privacy, bias, compliance, and ethical constraints enforced at runtime.
 
-    Pluggable Policy Engine
-    Modular enforcement of privacy, bias, compliance, and safety at runtime.
+    Multi-Modal Embodiment: Adapters for text, code, images, audio, sensors, and device/action execution.
 
-    Multi-Modal & Environmental Embodiment
-    Adapters for text, image, audio, code, sensors, and action executors (Docker, SSH, K8s, IoT).
+    Self-Healing Scheduler: Adaptive hook-based workflow and error/fallback recovery.
 
-    Adaptive, Self-Healing Scheduling
-    Central orchestrator with hook-based workflow, fallback/recovery, and live tuning.
+Modules
 
-🧩 Module Breakdown
-Module/Folder	Description
-memory_fabric	Hierarchical memory, vector search, active forgetting
-plugin_toolbelt	Tool/plugin system, runtime skill onboarding, pipeline composition
-metacog_core	Goal review, self-critique, rationale tracing, uncertainty modeling
-mood_persona	Dynamic persona/mood management
-feedback_trainer	Online feedback, continual LoRA/adapters, data curation
-metrics_observability	Live dashboards, metrics, trace logs, audit
-human_in_loop	Clarification, escalation, human-in-the-loop safety
-policy_manager	Privacy, bias, compliance enforcement, modular policy plugins
-multi_modal	Sensor adapters, action executors, event fusion/workflows
-scheduler	Central loop, hook registry, every-n-loops, self-healing logic
-main.py	Demo entrypoint: wires up all modules for turnkey run
-💡 Features
+    memory_fabric: Infinite, hierarchical, semantic memory
 
-    Plug in new skills, tools, and adapters at runtime—no core changes required
+    plugin_toolbelt: Tool/plugin management and dynamic skill onboarding
 
-    “Never forgets”—memory, context, and learning are infinite and always retrievable
+    metacog_core: Metacognitive planner, rationale, uncertainty
 
-    Transparent, auditable decision-making: every action, every thought, fully logged
+    mood_persona: Persona/mood runtime switching
 
-    Handles errors, ambiguity, and failures with self-healing and human escalation
+    feedback_trainer: Continual learning and adapter pipeline
 
-    Fully modular: swap out or extend any part—run as agent, service, or headless API
+    metrics_observability: Metrics, dashboards, trace logs
 
-🚦 Quick Start
+    human_in_loop: Clarification and escalation to humans
 
-git clone https://github.com/mycell6611phone/AGI-Suite.git
-cd modular-agi
-pip install -r requirements.txt
-python main.py
-# See README for module demos and config
+    policy_manager: Pluggable policy/constraint engine
 
-    Demo workflows and adapters: See /multi_modal/workflows/
+    multi_modal: Sensors, adapters, executors, and workflows
 
-    Customize modules and policies: Edit /policy_manager/policy_config.yaml
+    scheduler: Central orchestrator, hooks, self-healing logic
 
-    Metrics: View live dashboards (Prometheus/Grafana setup in /metrics_observability/)
+    main.py: Entry point that ties modules together for agent run
 
-🎓 Why Is This Different?
+Quick Start
 
-    Beyond chatbots: This is not just a wrapper for GPT or an LLM with plugins. It’s a real agent platform with real memory, real reasoning, real learning, and real-world action capabilities.
+    Clone the repository:
+    git clone https://github.com/mycellphone/AGI-Suite.git
 
-    Truly modular: Every major AI/agent system is a pluggable module, not just a monolith or hard-coded pipeline.
+    Install dependencies:
+    cd AGI-Suite
+    pip install -r requirements.txt
 
-    Enterprise/Research ready: Human-in-the-loop, audit, policy, and observability from day one.
+    Run the main agent:
+    python main.py
 
-🙏 Credits
+    Demo workflows can be found in multi_modal/workflows/
 
-Built by Justin Carrow.
-Openly inspired by the best ideas from AGI research, Microsoft AutoGen, LangChain, OpenAI, and the open-source community.
-Special thanks to the contributors, reviewers, and anyone who helps push open AGI forward.
-📢 Contributing & Collaboration
+    Policies can be customized in policy_manager/policy_config.yaml
 
-Pull requests, issues, and collaborators welcome!
-File bugs, submit improvements, or contact for partnership/integration.
-🗺️ Roadmap
+    Metrics and observability setup are in metrics_observability/
 
-    Plug-in web UI for live agent control/monitoring
+Why AGI Suite?
 
-    New adapters (voice, video, cloud APIs, robotics)
+    More than just a chatbot: AGI Suite is a platform for real agent autonomy, memory, and action—modular and future-proof.
 
-    Fine-tuning workflows and on-device learning
+    Plug, play, and extend: Add new skills, sensors, or policies at runtime with no core changes.
 
-    Cloud and distributed agent deployment
+    Transparent and safe: Every agent decision is logged, explainable, and auditable.
 
-⚠️ License
+    Ready for research or rapid prototyping: Start building next-gen agent systems immediately.
 
-GNU 3.0
+Credits
 
-    “This repo is a launchpad. Fork it, run it, break it, improve it—let’s build the future of autonomous agents together.”
+Created by Justin Carrow
+Powered by contributions from the open-source AI community.
+Contributing
+
+Open to issues, pull requests, and ideas. Want to build an adapter, tool, or dashboard? Check the docs and open a discussion.
+Roadmap
+
+    Web UI and real-time agent dashboard
+
+    Voice, video, and multi-modal adapters
+
+    Distributed and cloud agent orchestration
+
+    Native mobile agent integrations
+
+License
+
+GMU 3.0
+
+Fork it, improve it, and make it yours—AGI Suite is an open launchpad for the future of agent-based AI.
