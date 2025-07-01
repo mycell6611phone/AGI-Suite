@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sentence-transformers
+faiss-cpu
+numpy
+sqlite3
+pyyaml
+watchdog
+redis
+torch
+prometheus-client
+kafka-python
+elasticsearch
