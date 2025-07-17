@@ -1,0 +1,181 @@
+Here’s a plug-and-play “tool/plugin framework” scaffold for your project.
+You can drop these files into your plugins/ and pipeline/ folders, and everything is ready for cloud/server use.
+(Comments and usage examples included. You can adapt or split into multiple files as needed.)
+1. plugins/tool_interfaces.py
+
+Core interface/base classes for all plugins/tools.
+
+from abc import ABC, abstractmethod
+
+class Tool(ABC):
+    name: str
+
+    @abstractmethod
+    def run(self, **kwargs):
+        """Execute the tool with given parameters."""
+
+class CodeExecutor(Tool):
+    @abstractmethod
+    def run(self, code: str, language: str = "python") -> str:
+        ...
+
+class DatabaseClient(Tool):
+    @abstractmethod
+    def query(self, sql: str) -> list:
+        ...
+
+class WebFetcher(Tool):
+    @abstractmethod
+    def fetch(self, url: str) -> str:
+        ...
+
+class APIClient(Tool):
+    @abstractmethod
+    def call(self, endpoint: str, payload: dict) -> dict:
+        ...
+
+2. plugins/plugin_meta.py
+
+Plugin metadata and loader utility.
+
+import importlib
+
+class PluginMeta:
+    def __init__(self, name, category, entry_point):
+        self.name = name
+        self.category = category  # e.g. "code", "db", "web", "api"
+        self.entry_point = entry_point
+
+    def load(self):
+        module_name, attr = self.entry_point.split(":")
+        module = importlib.import_module(module_name)
+        return getattr(module, attr)()
+
+3. plugins/manager.py
+
+Discovers, loads, and hot-reloads plugins.
+
+import os
+import threading
+import importlib
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
+from .plugin_meta import PluginMeta
+
+class PluginManager:
+    def __init__(self, plugin_folder="plugins"):
+        self.plugin_folder = plugin_folder
+        self.registry = {}
+        self.load_from_folder()
+        self._start_watcher()
+
+    def load_from_folder(self):
+        for fname in os.listdir(self.plugin_folder):
+            if fname.endswith(".py") and fname != "__init__.py":
+                name = fname[:-3]
+                module = importlib.import_module(f"plugins.{name}")
+                plugin = getattr(module, "PLUGIN", None)
+                if plugin:
+                    self.registry[plugin.name] = plugin
+
+    def _start_watcher(self):
+        class Handler(FileSystemEventHandler):
+            def __init__(self, pm):
+                self.pm = pm
+            def on_created(self, event):
+                self.pm.load_from_folder()
+            def on_modified(self, event):
+                self.pm.load_from_folder()
+            def on_deleted(self, event):
+                self.pm.load_from_folder()
+        obs = Observer()
+        obs.schedule(Handler(self), self.plugin_folder, recursive=False)
+        obs_thread = threading.Thread(target=obs.start, daemon=True)
+        obs_thread.start()
+
+4. Example Plugin: plugins/dummy_fetcher.py
+
+Sample tool—can be dropped in at runtime.
+
+from .tool_interfaces import WebFetcher
+
+class DummyFetcher(WebFetcher):
+    name = "dummy_fetcher"
+    def fetch(self, url: str) -> str:
+        return f"Fetched (fake) content from {url}"
+
+PLUGIN = DummyFetcher()
+
+5. pipeline/engine.py
+
+Composable pipeline executor supporting YAML pipeline specs.
+
+import yaml
+
+class PipelineEngine:
+    def __init__(self, plugin_manager):
+        self.pm = plugin_manager
+
+    def run_pipeline(self, pipeline_path: str):
+        with open(pipeline_path) as f:
+            spec = yaml.safe_load(f)
+        context = {}
+        for step in spec["steps"]:
+            tool = self.pm.registry[step["tool"]]
+            action = getattr(tool, step["action"])
+            # Replace arg values from context if possible
+            args = {k: context.get(v, v) for k, v in step["args"].items()}
+            result = action(**args)
+            if "save_to" in step:
+                context[step["save_to"]] = result
+        return context
+
+6. Example Pipeline Spec: pipeline/sample_pipeline.yaml
+
+name: test_fetch_and_print
+steps:
+  - tool: dummy_fetcher
+    action: fetch
+    args:
+      url: "https://example.com"
+    save_to: page_text
+  - tool: code_executor
+    action: run
+    args:
+      code: |
+        print(page_text)
+    save_to: output
+
+7. FastAPI Example Integration (add to your main FastAPI app):
+
+from fastapi import FastAPI, UploadFile
+from plugins.manager import PluginManager
+from pipeline.engine import PipelineEngine
+
+app = FastAPI()
+pm = PluginManager(plugin_folder="plugins")
+engine = PipelineEngine(pm)
+
+@app.get("/tools")
+def list_tools():
+    return list(pm.registry.keys())
+
+@app.post("/pipelines/run")
+async def run_pipeline(file: UploadFile):
+    pipeline_path = f"/tmp/{file.filename}"
+    with open(pipeline_path, "wb") as f:
+        f.write(await file.read())
+    result = engine.run_pipeline(pipeline_path)
+    return {"result": result}
+
+How to Use
+
+    Drop all .py files into the correct folders (plugins/, pipeline/).
+
+    Add plugins as single Python files in plugins/ (must have PLUGIN = ... at the end).
+
+    To add new tools, just drop in a .py file and it hot-loads!
+
+    Define pipelines in YAML and POST to /pipelines/run to execute.
+
