@@ -1,0 +1,68 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/editor
+.vscode/
+.idea/
+
+# Data, logs, temp
+*.db
+*.sqlite
+*.log
+*.jsonl
+*.index
+
+# Model weights and large files (optional)
+*.pt
+*.pth
+*.h5
+*.onnx
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Misc
+*.bak
+.adapt/
+training_queue/
+adapters/
+meta.json
+# Codex additions
+
+# IDE/editor
+.vscode/
+.idea/
+
+# Data, logs, temp
+*.db
+*.sqlite
+*.log
+*.jsonl
+*.index
+
+# Model weights and large files (optional)
+*.pt
+*.pth
+*.h5
+*.onnx
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Misc
+*.bak
+.adapt/
+training_queue/
+adapters/
+meta.json
